@@ -17,8 +17,11 @@ namespace CustomizedUserControl
         public CustomizedUserControl()
         {
             InitializeComponent();
-        }
+            ToolTip tt = new ToolTip();
+            tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
 
+
+        }
         public event EventHandler<SizeClickedEventArgs> SizeClicked;
 
         public virtual void OnSizeClicked(SizeClickedEventArgs e)
@@ -56,8 +59,6 @@ namespace CustomizedUserControl
                 sizeButton.Name = "Talla unica";
                 sizesFlowLayoutPanel.Controls.Add(sizeButton);
             }
-           
-
         }
 
         private void rtButtons_Click(object sender, EventArgs e)

@@ -43,6 +43,7 @@
             // 
             // largePhotoPictureBox
             // 
+            this.largePhotoPictureBox.Cursor = System.Windows.Forms.Cursors.Hand;
             this.largePhotoPictureBox.Location = new System.Drawing.Point(43, 60);
             this.largePhotoPictureBox.Name = "largePhotoPictureBox";
             this.largePhotoPictureBox.Size = new System.Drawing.Size(454, 294);
@@ -127,6 +128,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
             this.Controls.Add(this.label5);
             this.Controls.Add(this.sizesFlowLayoutPanel);
             this.Controls.Add(this.label4);
