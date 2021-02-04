@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CustomizedUserControl
 {
-    class Product
+    public class Product
     {
         public int ProductId { get; set; }
         public string Size { get; set; }

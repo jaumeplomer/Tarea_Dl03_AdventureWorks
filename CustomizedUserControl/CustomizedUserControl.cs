@@ -13,14 +13,22 @@ namespace CustomizedUserControl
 {
     public partial class CustomizedUserControl: UserControl
     {
+        Product prod = new Product();
         public CustomizedUserControl()
         {
             InitializeComponent();
         }
 
+        public event EventHandler<SizeClickedEventArgs> SizeClicked;
+
+        public virtual void OnSizeClicked(SizeClickedEventArgs e)
+        {
+            SizeClicked?.Invoke(this, e);
+        }
+
         private void largePhotoPictureBox_Click(object sender, EventArgs e)
         {
-            var productModel = DataAccess.GetProductModel(100);
+            var productModel = DataAccess.GetProductModel(20);
             MemoryStream ms = new MemoryStream(productModel.LargePhoto);
             Image largePhoto = Image.FromStream(ms);
             largePhotoPictureBox.Image = largePhoto;
@@ -28,7 +36,7 @@ namespace CustomizedUserControl
             productModelNameTextBox.Text = productModel.Name;
             productPriceTextBox.Text = productModel.ListPrice.ToString();
 
-            productModel.ProductSizes = DataAccess.GetProducts(100);
+            productModel.ProductSizes = DataAccess.GetProducts(20);
 
             if (productModel.ProductSizes[0].Size != null)
             {
@@ -38,6 +46,7 @@ namespace CustomizedUserControl
                     sizeButton.Text = product.Size;
                     sizeButton.Name = product.ProductId.ToString();
                     sizesFlowLayoutPanel.Controls.Add(sizeButton);
+                    sizeButton.Click += rtButtons_Click;
                 }
             }
             else
@@ -51,5 +60,11 @@ namespace CustomizedUserControl
 
         }
 
+        private void rtButtons_Click(object sender, EventArgs e)
+        {
+            prod.ProductId = Int32.Parse(((Button)sender).Name);
+            SizeClickedEventArgs args = new SizeClickedEventArgs(prod);
+            OnSizeClicked(args);
+        }
     }
 }

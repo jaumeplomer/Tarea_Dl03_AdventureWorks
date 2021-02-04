@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CustomizedUserControl
 {
-    class DataAccess
+    public class DataAccess
     {
         public static ProductModel GetProductModel(int productModelId)
         {
