@@ -19,11 +19,9 @@ namespace CustomizedUserControl
             InitializeComponent();
             ToolTip tt = new ToolTip();
             tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
-
-
         }
-        public event EventHandler<SizeClickedEventArgs> SizeClicked;
 
+        public event EventHandler<SizeClickedEventArgs> SizeClicked;
         public virtual void OnSizeClicked(SizeClickedEventArgs e)
         {
             SizeClicked?.Invoke(this, e);
@@ -31,7 +29,40 @@ namespace CustomizedUserControl
 
         private void largePhotoPictureBox_Click(object sender, EventArgs e)
         {
-            var productModel = DataAccess.GetProductModel(20);
+            ProductModel productModel = new ProductModel();
+            sizesFlowLayoutPanel.Controls.Clear();
+
+            int randomizer()
+            {
+                Random rnd = new Random();
+                int a = rnd.Next(0, 128);
+                return a;
+            }
+
+            int randomProductModelID = 20;
+            bool notNull = false;
+
+            while (notNull == false)
+            {
+                try
+                {
+                    productModel = DataAccess.GetProductModel(randomProductModelID);
+                    if (productModel != null)
+                    {
+                        notNull = true;
+                    }
+                    else
+                    {
+                        randomProductModelID = randomizer();
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
+            }                   
+
             MemoryStream ms = new MemoryStream(productModel.LargePhoto);
             Image largePhoto = Image.FromStream(ms);
             largePhotoPictureBox.Image = largePhoto;
@@ -39,7 +70,7 @@ namespace CustomizedUserControl
             productModelNameTextBox.Text = productModel.Name;
             productPriceTextBox.Text = productModel.ListPrice.ToString();
 
-            productModel.ProductSizes = DataAccess.GetProducts(20);
+            productModel.ProductSizes = DataAccess.GetProducts(randomProductModelID);
 
             if (productModel.ProductSizes[0].Size != null)
             {

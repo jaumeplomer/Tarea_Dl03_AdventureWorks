@@ -23,7 +23,7 @@ namespace CustomizedUserControl
                                 JOIN Production.ProductPhoto ON ProductProductPhoto.ProductPhotoID = ProductPhoto.ProductPhotoID
                                 WHERE Product.ProductModelID = {productModelId}
                                 ORDER BY Product.ListPrice";
-                var productModel = conn.Query<ProductModel>(sql).FirstOrDefault();               
+                ProductModel productModel = conn.Query<ProductModel>(sql).FirstOrDefault();               
                 return productModel;
             }
         }
@@ -37,10 +37,24 @@ namespace CustomizedUserControl
                                 WHERE Product.ProductModelID = {productModelId}
                                 ORDER BY Size";
                 var products = conn.Query<Product>(sql).ToList();
-                 
+
                 //Borrar valors duplicats amb C#
-                
-                return products;
+                var sizes = products.Distinct().ToList();
+
+                return sizes;
+            }
+        }
+
+
+        public static List<Product> getRandomId()
+        {
+            string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string sql = $@"SELECT Product.ProductModelID
+                                FROM Production.Product;";
+                List<Product> products = conn.Query<Product>(sql).ToList();
+                return products;              
             }
         }
     }
