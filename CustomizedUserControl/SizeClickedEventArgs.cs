@@ -8,7 +8,7 @@ namespace CustomizedUserControl
 {
     public class SizeClickedEventArgs : EventArgs
     {
-        private string m_Data;      
+        private string m_Data;     
         public SizeClickedEventArgs(Product prod)
         {
             m_Data = prod.ProductId.ToString();

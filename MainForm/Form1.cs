@@ -25,15 +25,14 @@ namespace MainForm
             textBox1.Text = e.Data;
         }
 
-        public event EventHandler ClearButtonClicked;
-        public virtual void OnClearButtonClicked(EventArgs e)
+        private void customizedUserControl1_Load(object sender, EventArgs e)
         {
-            ClearButtonClicked?.Invoke(this, e);
+            
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void customizedUserControl1_Click(object sender, EventArgs e)
         {
-            OnClearButtonClicked(e);
+            textBox1.Text = "";
         }
     }
 }

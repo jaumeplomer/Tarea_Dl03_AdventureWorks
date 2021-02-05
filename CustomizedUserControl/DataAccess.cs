@@ -15,14 +15,7 @@ namespace CustomizedUserControl
             string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                //Product.Size
-                string sql = $@"SELECT DISTINCT ProductModel.ProductModelID, ProductModel.Name, ProductPhoto.LargePhoto, Product.ListPrice
-                                FROM Production.ProductModel
-                                JOIN Production.Product ON ProductModel.ProductModelID = Product.ProductModelID
-                                JOIN Production.ProductProductPhoto ON Product.ProductID = ProductProductPhoto.ProductID
-                                JOIN Production.ProductPhoto ON ProductProductPhoto.ProductPhotoID = ProductPhoto.ProductPhotoID
-                                WHERE Product.ProductModelID = {productModelId}
-                                ORDER BY Product.ListPrice";
+                string sql = $"exec sp1_getProductModel {productModelId}";
                 ProductModel productModel = conn.Query<ProductModel>(sql).FirstOrDefault();               
                 return productModel;
             }
@@ -33,9 +26,7 @@ namespace CustomizedUserControl
             string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string sql = $@"SELECT ProductId, Size FROM Production.Product
-                                WHERE Product.ProductModelID = {productModelId}
-                                ORDER BY Size";
+                string sql = $"exec sp2_getProduct {productModelId}";
                 var products = conn.Query<Product>(sql).ToList();
 
                 List<Product> sizes = new List<Product>();
@@ -62,10 +53,9 @@ namespace CustomizedUserControl
             string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string sql = $@"SELECT Product.ProductModelID
-                                FROM Production.Product;";
+                string sql = "exec sp3_getProductModelIds";
                 List<Product> products = conn.Query<Product>(sql).ToList();
-                return products;              
+                return products;
             }
         }
     }

@@ -13,14 +13,13 @@ namespace CustomizedUserControl
 {
     public partial class CustomizedUserControl: UserControl
     {
-
-        Product prod = new Product();
+        Product productInfo = new Product();
         public CustomizedUserControl()
         {
             InitializeComponent();
+
             ToolTip tt = new ToolTip();
-            tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
-            
+            tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");           
         }
 
         public event EventHandler<SizeClickedEventArgs> SizeClicked;
@@ -36,8 +35,20 @@ namespace CustomizedUserControl
 
             int randomizer()
             {
+                List<Product> productIds = DataAccess.getRandomId();
+                List<int> intProductIds = new List<int>();
+
+                foreach (Product prod in productIds)
+                {
+                    int id = prod.ProductId;
+                    intProductIds.Add(id);
+                }
+
+                int minId = intProductIds.Min();
+                int maxId = intProductIds.Max();
+
                 Random rnd = new Random();
-                int a = rnd.Next(0, 128);
+                int a = rnd.Next(minId, maxId);
                 return a;
             }
 
@@ -98,8 +109,8 @@ namespace CustomizedUserControl
 
         private void rtButtons_Click(object sender, EventArgs e)
         {
-            prod.ProductId = Int32.Parse(((Button)sender).Name);
-            SizeClickedEventArgs args = new SizeClickedEventArgs(prod);
+            productInfo.ProductId = Int32.Parse(((Button)sender).Name);
+            SizeClickedEventArgs args = new SizeClickedEventArgs(productInfo);
             OnSizeClicked(args);
         }
 

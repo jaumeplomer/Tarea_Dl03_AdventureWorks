@@ -29,9 +29,8 @@
         private void InitializeComponent()
         {
             this.textBox1 = new System.Windows.Forms.TextBox();
-            this.customizedUserControl1 = new CustomizedUserControl.CustomizedUserControl();
             this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
+            this.customizedUserControl1 = new CustomizedUserControl.CustomizedUserControl();
             this.SuspendLayout();
             // 
             // textBox1
@@ -40,14 +39,6 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(129, 22);
             this.textBox1.TabIndex = 1;
-            // 
-            // customizedUserControl1
-            // 
-            this.customizedUserControl1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
-            this.customizedUserControl1.Location = new System.Drawing.Point(32, 12);
-            this.customizedUserControl1.Name = "customizedUserControl1";
-            this.customizedUserControl1.Size = new System.Drawing.Size(545, 616);
-            this.customizedUserControl1.TabIndex = 0;
             // 
             // label1
             // 
@@ -58,22 +49,21 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Product id:";
             // 
-            // button1
+            // customizedUserControl1
             // 
-            this.button1.Location = new System.Drawing.Point(668, 411);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(104, 93);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Clear!";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.customizedUserControl1.BackColor = System.Drawing.SystemColors.GradientActiveCaption;
+            this.customizedUserControl1.Location = new System.Drawing.Point(32, 21);
+            this.customizedUserControl1.Name = "customizedUserControl1";
+            this.customizedUserControl1.Size = new System.Drawing.Size(545, 616);
+            this.customizedUserControl1.TabIndex = 0;
+            this.customizedUserControl1.Load += new System.EventHandler(this.customizedUserControl1_Load);
+            this.customizedUserControl1.Click += new System.EventHandler(this.customizedUserControl1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(881, 713);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.customizedUserControl1);
@@ -89,7 +79,6 @@
         private CustomizedUserControl.CustomizedUserControl customizedUserControl1;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
     }
 }
 
