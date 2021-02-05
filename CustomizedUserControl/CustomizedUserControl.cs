@@ -13,12 +13,14 @@ namespace CustomizedUserControl
 {
     public partial class CustomizedUserControl: UserControl
     {
+
         Product prod = new Product();
         public CustomizedUserControl()
         {
             InitializeComponent();
             ToolTip tt = new ToolTip();
             tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
+            
         }
 
         public event EventHandler<SizeClickedEventArgs> SizeClicked;
@@ -39,7 +41,7 @@ namespace CustomizedUserControl
                 return a;
             }
 
-            int randomProductModelID = 20;
+            int randomProductModelID = randomizer();
             bool notNull = false;
 
             while (notNull == false)
@@ -85,10 +87,12 @@ namespace CustomizedUserControl
             }
             else
             {
+                Product product = productModel.ProductSizes[0];
                 Button sizeButton = new Button();
                 sizeButton.Text = "Talla unica";
-                sizeButton.Name = "Talla unica";
+                sizeButton.Name = product.ProductId.ToString();
                 sizesFlowLayoutPanel.Controls.Add(sizeButton);
+                sizeButton.Click += rtButtons_Click;
             }
         }
 
@@ -97,6 +101,15 @@ namespace CustomizedUserControl
             prod.ProductId = Int32.Parse(((Button)sender).Name);
             SizeClickedEventArgs args = new SizeClickedEventArgs(prod);
             OnSizeClicked(args);
+        }
+
+        public void clearComponents(object sender, EventArgs e)
+        {
+            sizesFlowLayoutPanel.Controls.Clear();
+            productPriceTextBox.Text = "";
+            productModelIdTextBox.Text = "";
+            productModelNameTextBox.Text = "";
+            largePhotoPictureBox.Image = null;
         }
     }
 }

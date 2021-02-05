@@ -38,9 +38,20 @@ namespace CustomizedUserControl
                                 ORDER BY Size";
                 var products = conn.Query<Product>(sql).ToList();
 
-                //Borrar valors duplicats amb C#
-                var sizes = products.Distinct().ToList();
+                List<Product> sizes = new List<Product>();
+                List<string> test = new List<string>();
 
+                for (int i = 0; i < products.Count; i++)
+                {
+                    Product p = products[i];
+                    string a = p.Size;
+
+                    if (!test.Contains(a))
+                    {
+                        test.Add(a);
+                        sizes.Add(p);
+                    }
+                }
                 return sizes;
             }
         }

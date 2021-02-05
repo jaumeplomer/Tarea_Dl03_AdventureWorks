@@ -19,12 +19,21 @@ namespace MainForm
             InitializeComponent();
             customizedUserControl1.SizeClicked += recieveData;
         }
-
-
+        
         public void recieveData(object sender, SizeClickedEventArgs e)
         {
             textBox1.Text = e.Data;
         }
 
+        public event EventHandler ClearButtonClicked;
+        public virtual void OnClearButtonClicked(EventArgs e)
+        {
+            ClearButtonClicked?.Invoke(this, e);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OnClearButtonClicked(e);
+        }
     }
 }
