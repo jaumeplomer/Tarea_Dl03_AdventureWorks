@@ -10,9 +10,11 @@ namespace CustomizedUserControl
 {
     public class DataAccess
     {
+        static string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
+
+        //Methods to get data from database with stored procedures.
         public static ProductModel GetProductModel(int productModelId)
         {
-            string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string sql = $"exec sp1_getProductModel {productModelId}";
@@ -21,27 +23,32 @@ namespace CustomizedUserControl
             }
         }
 
+        //In this method we have a control to remove duplicated values.
         public static List<Product> GetProducts(int productModelId)
         {
-            string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string sql = $"exec sp2_getProduct {productModelId}";
                 var products = conn.Query<Product>(sql).ToList();
 
+                //Declare 2 auxiliar lists, one for the sizes as string, and another for the Products with non duplicaded values.
                 List<Product> sizes = new List<Product>();
                 List<string> test = new List<string>();
 
                 for (int i = 0; i < products.Count; i++)
                 {
+                    //We recieve a product and set its Size into a string
                     Product p = products[i];
                     string a = p.Size;
-
+                    
+                    //if the string value is not in the test list, we add it the string, and also add the Product object to the auxiliar Product List
+                    //if the string value is already in the list, we dont add anything.
                     if (!test.Contains(a))
                     {
                         test.Add(a);
                         sizes.Add(p);
                     }
+                    //Finally we return the new List with non duplicated values.
                 }
                 return sizes;
             }
@@ -49,7 +56,6 @@ namespace CustomizedUserControl
 
         public static List<Product> getRandomId()
         {
-            string connectionString = @"Data Source = (localdb)\MSSQLLocalDB; Initial Catalog = AdventureWorks2016; Integrated Security = True; Connect Timeout = 30; Encrypt = False; TrustServerCertificate = False; ApplicationIntent = ReadWrite; MultiSubnetFailover = False";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 string sql = "exec sp3_getProductModelIds";

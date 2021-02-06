@@ -16,14 +16,17 @@ namespace MainForm
         public Form1()
         {
             InitializeComponent();
+            //Subscribe to the event
             customizedUserControl1.SizeClicked += recieveData;           
         }
 
+        //get the data from the event args to show it in the textbox
         public void recieveData(object sender, SizeClickedEventArgs e)
         {
             textBox1.Text = e.Data;
         }
 
+        //set a RGB value to UI property SizesBgColor
         private void colorPickerTrackBar_Scroll(object sender, EventArgs e)
         {
             int red = redPickerTrackBar.Value;

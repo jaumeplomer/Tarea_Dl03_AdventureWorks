@@ -14,6 +14,7 @@ namespace CustomizedUserControl
     {
         Product productInfo = new Product();
 
+        //Property for the background colors
         private Color _sizesBgColor;
         public Color SizesBgColor
         {
@@ -25,10 +26,12 @@ namespace CustomizedUserControl
         {
             InitializeComponent();
             largePhotoPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+            //Create a tootltip to show a message on the largePhotoPictureBox
             ToolTip tt = new ToolTip();
             tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
         }
 
+        //Declare the eventhandler and delegate and raise it
         public event EventHandler<SizeClickedEventArgs> SizeClicked;
         
         public virtual void OnSizeClicked(SizeClickedEventArgs e)
@@ -40,23 +43,28 @@ namespace CustomizedUserControl
         {
             ProductModel productModel = new ProductModel();
             sizesFlowLayoutPanel.Controls.Clear();
-
+            
+            //Method that returns a random int from ProductModelID values. 
             int randomizer()
             {
+                //We set all the ids from database in productIds list
                 List<Product> productIds = DataAccess.getRandomId();
                 List<int> intProductIds = new List<int>();
 
+                //Get the id as an int and set into another list
                 foreach (Product prod in productIds)
                 {
                     int id = prod.ProductId;
                     intProductIds.Add(id);
                 }
 
+                //Pick a random id from the new list and return it
                 Random rnd = new Random();
                 int a = intProductIds[rnd.Next(0, intProductIds.Count)];
                 return a;
             }
 
+            //Declare a boolean to control when the ProductModel is not null
             int randomProductModelID = randomizer();
             bool notNull = false;
 
@@ -64,6 +72,8 @@ namespace CustomizedUserControl
             {
                 try
                 {
+                    //we try to get a product model from the database with the id of the random int we got before.
+                    //if it is not null, we set the bool to true and exit the while, if it is null, we get another random id and enter the while again.
                     productModel = DataAccess.GetProductModel(randomProductModelID);
                     if (productModel != null)
                     {
@@ -81,6 +91,7 @@ namespace CustomizedUserControl
                 }
             }                   
 
+            //Set the values of the ProductModel to the components of the UserControl.
             MemoryStream ms = new MemoryStream(productModel.LargePhoto);
             Image largePhoto = Image.FromStream(ms);
             largePhotoPictureBox.Image = largePhoto;
@@ -88,8 +99,11 @@ namespace CustomizedUserControl
             productModelNameTextBox.Text = productModel.Name;
             productPriceTextBox.Text = productModel.ListPrice.ToString();
 
+            //Get a list of Sizs (and product id) from the database.
             productModel.ProductSizes = DataAccess.GetProducts(randomProductModelID);
 
+            //if there are sizes, we create a button for each size with the productId as its name and add it to the FlowLayoutPanel. Plus subscribe it to rtButtons_Click event.
+            //if sizes are empty, we create only one button with the same properties, only we set the Text to "talla unica".
             if (productModel.ProductSizes[0].Size != null)
             {
                 foreach (Product product in productModel.ProductSizes)
@@ -114,6 +128,7 @@ namespace CustomizedUserControl
             }
         }
 
+        //Method that sets the ProductID of the size, shown in the runtime button, as an argument of the SizeClickedEventArgs and calls OnSizeClicked.
         private void rtButtons_Click(object sender, EventArgs e)
         {
             productInfo.ProductId = Int32.Parse(((Button)sender).Name);
@@ -121,6 +136,7 @@ namespace CustomizedUserControl
             OnSizeClicked(args);
         }
 
+        //Methods to set the background color of the main User control or panels to the color set on the Property
         private void mainBgColorButton_Click(object sender, EventArgs e)
         {
             this.BackColor = SizesBgColor;
