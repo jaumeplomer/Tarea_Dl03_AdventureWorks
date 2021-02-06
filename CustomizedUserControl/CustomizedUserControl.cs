@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Data;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,15 +13,24 @@ namespace CustomizedUserControl
     public partial class CustomizedUserControl: UserControl
     {
         Product productInfo = new Product();
+
+        private Color _sizesBgColor;
+        public Color SizesBgColor
+        {
+            get { return _sizesBgColor; }
+            set { _sizesBgColor = value; }
+        }
+
         public CustomizedUserControl()
         {
             InitializeComponent();
-
+            largePhotoPictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
             ToolTip tt = new ToolTip();
-            tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");           
+            tt.SetToolTip(largePhotoPictureBox, "Click me to display another product");
         }
 
         public event EventHandler<SizeClickedEventArgs> SizeClicked;
+        
         public virtual void OnSizeClicked(SizeClickedEventArgs e)
         {
             SizeClicked?.Invoke(this, e);
@@ -44,11 +52,8 @@ namespace CustomizedUserControl
                     intProductIds.Add(id);
                 }
 
-                int minId = intProductIds.Min();
-                int maxId = intProductIds.Max();
-
                 Random rnd = new Random();
-                int a = rnd.Next(minId, maxId);
+                int a = intProductIds[rnd.Next(0, intProductIds.Count)];
                 return a;
             }
 
@@ -92,6 +97,7 @@ namespace CustomizedUserControl
                     Button sizeButton = new Button();
                     sizeButton.Text = product.Size;
                     sizeButton.Name = product.ProductId.ToString();
+                    sizeButton.BackColor = Color.Gray;
                     sizesFlowLayoutPanel.Controls.Add(sizeButton);
                     sizeButton.Click += rtButtons_Click;
                 }
@@ -102,6 +108,7 @@ namespace CustomizedUserControl
                 Button sizeButton = new Button();
                 sizeButton.Text = "Talla unica";
                 sizeButton.Name = product.ProductId.ToString();
+                sizeButton.BackColor = Color.Gray;
                 sizesFlowLayoutPanel.Controls.Add(sizeButton);
                 sizeButton.Click += rtButtons_Click;
             }
@@ -114,13 +121,15 @@ namespace CustomizedUserControl
             OnSizeClicked(args);
         }
 
-        public void clearComponents(object sender, EventArgs e)
+        private void mainBgColorButton_Click(object sender, EventArgs e)
         {
-            sizesFlowLayoutPanel.Controls.Clear();
-            productPriceTextBox.Text = "";
-            productModelIdTextBox.Text = "";
-            productModelNameTextBox.Text = "";
-            largePhotoPictureBox.Image = null;
+            this.BackColor = SizesBgColor;
+        }
+
+        private void panelsBgColorButton_Click(object sender, EventArgs e)
+        {
+            largePhotoPictureBox.BackColor = SizesBgColor;
+            sizesFlowLayoutPanel.BackColor = SizesBgColor;
         }
     }
 }

@@ -13,26 +13,25 @@ namespace MainForm
 {
     public partial class Form1 : Form
     {
-        
         public Form1()
         {
             InitializeComponent();
-            customizedUserControl1.SizeClicked += recieveData;
+            customizedUserControl1.SizeClicked += recieveData;           
         }
-        
+
         public void recieveData(object sender, SizeClickedEventArgs e)
         {
             textBox1.Text = e.Data;
         }
 
-        private void customizedUserControl1_Load(object sender, EventArgs e)
+        private void colorPickerTrackBar_Scroll(object sender, EventArgs e)
         {
-            
-        }
+            int red = redPickerTrackBar.Value;
+            int green = greenPickerTrackBar.Value;
+            int blue = bluePickerTrackBar.Value;
 
-        private void customizedUserControl1_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = "";
+            Color color = Color.FromArgb(red, green, blue);
+            customizedUserControl1.SizesBgColor = color;    
         }
     }
 }
